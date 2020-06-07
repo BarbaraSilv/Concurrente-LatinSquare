@@ -10,8 +10,8 @@ public class Main {
         int cantidadDeCuadrados = 0;
         List<CuadradoLatino> cuadrados = new ArrayList<CuadradoLatino>();
         try {
-            File myObj = new File("src/inputs-ejemplo");
-            Scanner myReader = new Scanner(myObj);
+            File archivo = new File("src/inputs-ejemplo");
+            Scanner myReader = new Scanner(archivo);
             cantidadDeCuadrados = Integer.parseInt(myReader.nextLine());
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
@@ -22,12 +22,15 @@ public class Main {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-
-        ThreadPool threadPool = new ThreadPool(1000, 100);
+        Countdown countdown = new Countdown(cantidadDeCuadrados);
+        SortedList sortedList = new SortedList();
+        ThreadPool threadPool = new ThreadPool(1000, 100, countdown, sortedList);
         for (int i=0;i < cantidadDeCuadrados;i++){
             threadPool.launch(new TareaCuadradoLatino(i+1, cuadrados.get(i)));
         }
         threadPool.stop();
+        countdown.zero();
+        System.out.println(sortedList);
     }
 
 }

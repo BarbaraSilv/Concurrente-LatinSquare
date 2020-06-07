@@ -14,19 +14,20 @@ public class LatinWorker extends Thread{
     }
 
     public void run() {
+        Runnable tarea = null;
         try {
             while (true){
-                run();
-                TareaCuadradoLatino tarea = (TareaCuadradoLatino) this.buffer.read();
+                tarea = this.buffer.read();
                 tarea.run();
-                boolean esCuadradoLatino = verificar(tarea.cuadradoLatino);
-                countdown.dec();
-                if(esCuadradoLatino){
-                    lista.add(tarea.indice);
-                }
             }
         } catch (PoisonException e) {
             System.out.println("Me llego una poisonException");
+        }
+        TareaCuadradoLatino tareaCuadradoLatino = (TareaCuadradoLatino) tarea;
+        boolean esCuadradoLatino = verificar(tareaCuadradoLatino.cuadradoLatino);
+        countdown.dec();
+        if(esCuadradoLatino){
+            lista.add(tareaCuadradoLatino.indice);
         }
 
     }
