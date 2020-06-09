@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class LatinWorker extends Thread{
 
@@ -15,22 +14,21 @@ public class LatinWorker extends Thread{
     }
 
 	public void run() {
-		Runnable tarea = null;
+		Runnable tarea;
 		try {
 			while (true) {
 				tarea = this.buffer.read();
 				tarea.run();
 				TareaCuadradoLatino tareaCuadradoLatino = (TareaCuadradoLatino) tarea;
 				boolean esCuadradoLatino = verificar(tareaCuadradoLatino.cuadradoLatino);
-				countdown.dec();
 				if (esCuadradoLatino) {
 					lista.add(tareaCuadradoLatino.indice);
 				}
+				countdown.dec();
 			}
 		} catch (PoisonException e) {
 			System.out.println("Me llego una poisonException");
 		}
-
 	}
 
     public boolean verificar(CuadradoLatino c){
@@ -40,7 +38,7 @@ public class LatinWorker extends Thread{
     private boolean cumplePropiedad(CuadradoLatino cuadradoLatino){
         int dimension = cuadradoLatino.dimension;
         List<Integer> secuencia = cuadradoLatino.secuencia;
-        Boolean cumple = true;
+        boolean cumple = true;
         
         for (int fila = 0; fila< dimension; fila++ ) {
         	List<Integer> filaActual = obtenerFila(fila,secuencia,dimension);
@@ -63,7 +61,7 @@ public class LatinWorker extends Thread{
     }
 
 	private List<Integer> obtenerFila(int fila, List<Integer> secuencia, int dimension) {
-		List<Integer> filaObtenida = new ArrayList<Integer>();
+		List<Integer> filaObtenida = new ArrayList<>();
 		int posicion = fila * dimension;
 		for (int i = 0; i < dimension; i++) {
 			filaObtenida.add(secuencia.get(posicion));
@@ -74,7 +72,7 @@ public class LatinWorker extends Thread{
 	}
     
 	private List<Integer> obtenerColumna(int columna, List<Integer> secuencia, int dimension) {
-		List<Integer> columnaObtenida = new ArrayList<Integer>();
+		List<Integer> columnaObtenida = new ArrayList<>();
 		int posicion = columna;
 		for (int i = 0; i < dimension; i++) {
 			columnaObtenida.add(secuencia.get(posicion));
