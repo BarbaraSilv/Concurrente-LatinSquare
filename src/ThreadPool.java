@@ -4,12 +4,12 @@ import java.util.List;
 public class ThreadPool {
 
     Buffer buffer;
-    List<LatinWorker> workers = new ArrayList();
+    List<LatinWorker> workers = new ArrayList<>();
 
-    public ThreadPool(int n, int workers, Countdown c, SortedList l){
+    public ThreadPool(int n, int workers){
         this.buffer = new Buffer(n);
         for (int i = 0; i < workers; i++){
-            LatinWorker worker = new LatinWorker(buffer, c, l);
+            LatinWorker worker = new LatinWorker(buffer);
             worker.start();
             this.workers.add(worker);
         }

@@ -30,15 +30,15 @@ public class Main {
 
 		Countdown countdown = new Countdown(cantidadDeCuadrados);
 		SortedList sortedList = new SortedList();
-		ThreadPool threadPool = new ThreadPool(1000, cantLatinWorkers, countdown, sortedList);
+		ThreadPool threadPool = new ThreadPool(1000, cantLatinWorkers);
 		for (int i = 0; i < cantidadDeCuadrados; i++) {
-			threadPool.launch(new TareaCuadradoLatino(i + 1, cuadrados.get(i)));
+			threadPool.launch(new TareaCuadradoLatino(i + 1, cuadrados.get(i), countdown, sortedList));
 		}
 		threadPool.stop();
 		countdown.zero();
 		System.out.println(sortedList.lista);
 		long fin = System.currentTimeMillis();
-		System.out.print("El tiempo de ejecucion es " + formatter.format((fin - inicio) / 1000d) + " segundos");
+		System.out.print("El tiempo de ejecucion es de " + formatter.format((fin - inicio) / 1000d) + " segundos");
 	}
 
 }
